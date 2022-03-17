@@ -1,17 +1,38 @@
-import React, { Component, useContext, useState } from "react";
+import React, { Component, useContext,useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 
 import Axios from 'axios'
 import "./styles.css";
 
 import { Link , Navigate} from 'react-router-dom';
 import { UserContext } from "./UserContext";
+import { Nav } from "reactstrap";
 export default function SignIn() {
     const {User, setUser} = useContext(UserContext);
     const[status, setstatus] = useState("");
     const[password, setpassword] = useState("");
     const[emailid, setemailid] = useState("");
+    const[errr, seterrr] = useState(false );
+
+    // useEffect(() =>{
+    //     checkLoginStatus();
+    // },[]);
+    // const navigate = useNavigate();
+    // let data = null;
+    // const checkLoginStatus = () => {
+    //     data = sessionStorage.getItem('MySessionStorageData');
+    //     data = JSON.parse(data);
+    //     if(data)
+    //     {
+    //         setUser(data);
+    //         console.log("login data",data,User);  
+    //         return(
+    //             navigate('/home'));
+    //     }
+    // }
+    
 
 
     const signin = () => {
@@ -24,9 +45,12 @@ export default function SignIn() {
                 setstatus(response.data.result);
             }
             else{
+                seterrr(true);
                 setUser(response.data.result);
             }
-            console.log(response.data);
+            // localStorage.setItem('myData',JSON.stringify(response.data.result));
+            // sessionStorage.setItem('MySessionStorageData',JSON.stringify(response.data.result));
+            // console.log("loged data",response.data.result);
         });
 
     }
@@ -38,6 +62,12 @@ export default function SignIn() {
     function handleSubmit(event) {
         event.preventDefault();
     }
+
+    // if(User){
+    //     console.log("laknovina",User);
+    // }
+
+    
 
     return (
         <div className="sign">
@@ -61,7 +91,7 @@ export default function SignIn() {
                     />
                 </Form.Group>
                 <Button onClick={signin} class="btn btn-primary btn-block" block size="lg" type="submit" >
-                    
+                    {/* {if(errr) ? ()} */}
                     <Link to={'/home'} style={{color:"white",textDecoration: 'none'}}>Sign In</Link>
                 </Button>
 

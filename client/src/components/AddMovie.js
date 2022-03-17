@@ -34,18 +34,18 @@ function AddMovie() {
         });
     }
 
-    // if(!User){
-    //     return <Navigate to = '/signin' />
-    // }
+    if(!User){
+        return <Navigate to = '/signin' />
+    }
 
-    // if(!User.user_type)
-    // {
-    //     return (
-    //         <div class = "error"> 
-    //             Error : You are not an admin to add a movie
-    //         </div>
-    //     );
-    // }
+    if(!User.user_type)
+    {
+        return (
+            <div class = "error"> 
+                Error : You are not an admin to add a movie
+            </div>
+        );
+    }
     function handleSubmit(event) {
         event.preventDefault();
     }

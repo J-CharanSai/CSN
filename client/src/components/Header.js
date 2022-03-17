@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {
     Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Modal, ModalBody, Label, ModalHeader,
     Form, FormGroup, Input, Button
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
+import {UserContext} from './UserContext';
 
 class Header extends Component {
-    
+    // let {User,setUser} = useContext(UserContext);
 
     constructor(props) {
         super(props);
@@ -19,29 +20,19 @@ class Header extends Component {
         }
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
     }
 
     toggleModal() {
-        let temp = this.state.isModalOpen;
-        this.setState({ isModalOpen: !temp });
+         this.props.handleUser(null);
+
     }
     toggleNav() {
         let temp = this.state.isNavOpen;
         this.setState({ isNavOpen: !temp });
     }
-    handleLogin(event) {
-        this.toggleModal();
-        let temp = this.state.isLoggedin;
-        this.setState({ username: this.username.value });
-        this.setState({ password: this.password.value });
-        //code to handle login
-        alert("username: " + this.username.value + "password: " + this.password.value +
-            "Remember Me: " + this.remember.checked);
-        event.preventDefault();
-    }
 
     render() {
+        console.log("header",this.props.user);
         return (
             <div>
                 <div >
@@ -66,42 +57,15 @@ class Header extends Component {
                                     <NavLink className="nav-link" to='/addmovie'><span className="fa fa-info fa-lg"></span> Add Movie</NavLink>
                                 </NavItem>
                             </Nav>
-                            {/* <Nav className="ml-auto" navbar>
+                            {(this.props.user===null) ? (<></>) :(<Nav className="ml-auto" navbar>
                                 <NavItem>
-                                    <Button outline onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span>Login</Button>
+                                    <Button outline onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span>Logout</Button>
                                 </NavItem>
-                            </Nav> */}
+                            </Nav>) }
                         </Collapse>
 
                     </Navbar>
                 </div>
-
-                {/* <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.handleLogin}>
-                            <FormGroup>
-                                <Label htmlFor="username">Username</Label>
-                                <Input type="text" id="username" name="username"
-                                    innerRef={(input) => this.username = input} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
-                                <Input type="password" id="password" name="password"
-                                    innerRef={(input) => this.password = input} />
-                            </FormGroup>
-                            <FormGroup check>
-                                <Label check>
-                                    <Input type="checkbox" name="remember"
-                                        innerRef={(input) => this.remember = input} />
-                                    Remember me
-                                </Label>
-
-                            </FormGroup>
-                            <Button type="submit" value="submit" color="primary">Login</Button>
-                        </Form>
-                    </ModalBody>
-                </Modal> */}
             </div>
         );
     }

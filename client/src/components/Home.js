@@ -4,7 +4,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle} from 'reactstrap';
 
 import MovieCard from './MovieCard';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 import React, {useState,useContext, useEffect} from 'react';
@@ -29,6 +29,10 @@ function Home() {
                 console.log(response.data);
             });
     }, []);
+
+    
+    
+
     console.log("HI",temp1);
     let navigate = useNavigate();
         const routeChange = (id) => {
@@ -41,6 +45,10 @@ function Home() {
             routeChange(movie);
         }
     if(err){
+        if(!User){
+            console.log("ONOI");
+            return <Navigate to = '/signin' />
+        }
         const films_in = temp1.data.map(
             (movie) => {
                 return (

@@ -78,7 +78,7 @@ app.post("/signin", (req, res) => {
         "SELECT * FROM user WHERE user_emailid = ?", [emailid],
         (err, result) => {
             if (err) {
-                res.send({ err: err });
+                res.send({ err: 1, result : "error in connection" });
             }
             if (result.length !== 0) {
                 if (password.localeCompare(result[0].user_password) === 0) {
