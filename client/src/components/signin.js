@@ -91,8 +91,8 @@ export default function SignIn() {
                     />
                 </Form.Group>
                 <Button onClick={signin} class="btn btn-primary btn-block" block size="lg" type="submit" >
-                    {/* {if(errr) ? ()} */}
-                    <Link to={'/home'} style={{color:"white",textDecoration: 'none'}}>Sign In</Link>
+                    {errr ? (<Link to={'/home'} style={{color:"white",textDecoration: 'none'}}>Sign In</Link>) : <>Sign In</>}
+                    {/* <Link to={'/home'} style={{color:"white",textDecoration: 'none'}}>Sign In</Link> */}
                 </Button>
 
                 <p className="forgot-password text-right">

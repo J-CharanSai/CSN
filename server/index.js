@@ -14,7 +14,7 @@ const db = mysql.createConnection({
     database: "csn_database",
 });
 
-
+ 
 app.post("/signup", (req, res) => {
     console.log("signup")
     const emailid = req.body.emailid;
