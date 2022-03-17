@@ -9,7 +9,7 @@ class Profiletemp extends Component{
     
     render(){
         var len = this.props.Info.watchlist.length;
-        console.log("HI",this.props.Info.watchlist);
+        console.log("HI",this.props.Info);
         var watchlist = [];
         if(len > 0){
             watchlist = this.props.Info.watchlist.map(
@@ -37,7 +37,27 @@ class Profiletemp extends Component{
                 }
             );
         }
+        let len1 = this.props.Info.data.length;
+        var reviews = [];
+        console.log(this.props.Info.data,"LOFI");
+        console.log("reviews len",len1)
+        if (len1 > 0) {
+        reviews = this.props.Info.data.map(
+            (item) => {
+            return (
+                <ListGroupItem style={{ background: "#7d8b91", border: "6px solid #354f57" }}>
+                <ListGroupItemHeading>
+                    {item.movie_title}
+                </ListGroupItemHeading>
+                <ListGroupItemText>
+                    {item.review_text}
+                </ListGroupItemText>
+                </ListGroupItem>
+            );
+            }
 
+        );
+        }
         return(
             <section className="h-100 gradient-custom-2">
             <div className="container py-5 h-100">
@@ -60,8 +80,8 @@ class Profiletemp extends Component{
                           <p className="small text-muted mb-0">Reviews</p>
                         </div>
                         <div className="px-3">
-                          <p className="mb-1 h5">{this.props.Info.lists_len}</p>
-                          <p className="small text-muted mb-0">Lists</p>
+                          <p className="mb-1 h5">{len}</p>
+                          <p className="small text-muted mb-0">Watchlist</p>
                         </div>
                        
                       </div>
@@ -77,7 +97,7 @@ class Profiletemp extends Component{
                         <p className="lead fw-normal mb-0">Recent Reviews</p>
                       </div>
                       <div> 
-                          {this.props.revies}
+                          {reviews}
                       </div>
                     </div>
                   </div>

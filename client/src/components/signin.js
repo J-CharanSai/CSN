@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Axios from 'axios'
 import "./styles.css";
 
-import { Link } from 'react-router-dom';
+import { Link , Navigate} from 'react-router-dom';
 import { UserContext } from "./UserContext";
 export default function SignIn() {
     const {User, setUser} = useContext(UserContext);
@@ -28,6 +28,7 @@ export default function SignIn() {
             }
             console.log(response.data);
         });
+
     }
 
     function validateForm() {
@@ -60,7 +61,8 @@ export default function SignIn() {
                     />
                 </Form.Group>
                 <Button onClick={signin} class="btn btn-primary btn-block" block size="lg" type="submit" >
-                    sign in
+                    
+                    <Link to={'/home'} style={{color:"white",textDecoration: 'none'}}>Sign In</Link>
                 </Button>
 
                 <p className="forgot-password text-right">

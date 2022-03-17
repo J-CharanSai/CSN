@@ -10,6 +10,8 @@ export default function SignUp() {
     const [userid, setuserid] = useState("");
     const [emailid, setemailid] = useState("");
     const [password, setpassword] = useState("");
+    
+    const [status, setstatus] = useState("");
 
 
     const signup = () => {
@@ -18,6 +20,7 @@ export default function SignUp() {
             emailid: emailid,
             password: password,
         }).then((response) => {
+            setstatus(response.Message)
             console.log(response);
         });
     }
@@ -32,6 +35,7 @@ export default function SignUp() {
 
     return (
         <div className="sign">
+            <p className="stats">{status}</p>
             <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="userid">
                     <Form.Label>Userid</Form.Label>
@@ -60,7 +64,7 @@ export default function SignUp() {
                     />
                 </Form.Group>
                 <Button onClick={signup} class="btn btn-primary btn-block" block size="lg" type="submit" >
-                    sign Up
+                <Link to={'/signin'} style={{color:"white",textDecoration: 'none'}}>Sign Up</Link>
                 </Button>
                 <p className="forgot-password text-right">
                     Already registered <Link to={'/signin'}>sign in?</Link>

@@ -24,7 +24,7 @@ app.post("/signup", (req, res) => {
         "SELECT * FROM user WHERE user_emailid = ?", [emailid],
         (err, result) => {
             if (err) {
-                res.send({ err: err });
+                res.send({  Message : "Uanable to coonect to database "});
             }
             if (result.length !== 0 ) {
                 res.send({ Message: "Email already exists" });
@@ -35,13 +35,13 @@ app.post("/signup", (req, res) => {
                         "INSERT INTO user (user_id,user_emailid,user_password) VALUES (?,?,?)", [userid, emailid, password],
                         (err1, res1) => {
                             if (err1) {
-                                res.send({ err: err1 });
+                                res.send({ Message : "Uanable to coonect to database "});
                             }
                             if (res1) {
-                                res.send({ message: "User registered sucessfully" });
+                                res.send({ Message: "User registered sucessfully" });
                             }
                             else {
-                                res.send({ message: "Error in registering try again later" });
+                                res.send({ Message: "Error in registering try again later" });
                             }
                         }
                     );
@@ -219,11 +219,12 @@ app.get("/movie", (req, res) => {
 app.get("/profile", (req,res ) => {
     console.log("profile");
     const user_emailid = req.query.emailid;
-    console.log(req.query);
+    // console.log(req.query);
     // const user_emailid = "sunnyj6702@gmail.com"
     db.query(
-        "SELECT * FROM review WHERE R_user_emailid = ? ORDER BY date_added DESC",[user_emailid],
+        "SELECT * FROM review as re, movie as mv WHERE re.R_movie_id = mv.movie_id AND re.R_user_emailid = ? ORDER BY re.date_added DESC",[user_emailid],
         (err,result)=>{
+            console.log(result);
             if(err){
                 res.send({err : 1,data : "Error while fetching"});
             }
@@ -281,6 +282,79 @@ app.post("/addmovie", (req, res) => {
     );
 });
 
+app.post("/addreview", (req, res) => {
+    console.log("Adding Review");
+    const user_id= req.body.user_id;
+    const rating= req.body.rating;
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    console.log(today)
+    const date_added= today;
+    const movie_id= req.body.movie_id;
+    const review_text= req.body.review_text;
+    console.log(req.body)
+    db.query(
+        "SELECT * FROM review WHERE R_user_emailid = ? AND R_movie_id = ?",[user_id,movie_id],
+        (err,result) =>{
+            if(result.length === 0){
+                db.query(
+                    "INSERT INTO review (R_movie_id, R_user_emailid, rating, date_added, review_text) VALUES (?,?,?,?,?) ",
+                    [movie_id,user_id,rating,date_added,review_text],
+                    (err, res1) =>{
+                        console.log(err);
+                        if(err){
+                            res.send({err : 1, data:"Unable to insert data"});
+                        }
+                        else{
+                            res.send({err: 0 , data:"Movie added Sucessfully"});
+                        }
+                    }
+                );
+            }
+        }
+    )
+    
+});
+
+app.post("/addtowatchlist", (req, res) => {
+    console.log("Adding to watchlist");
+    const user_id= req.body.user_id;
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    console.log(today)
+    const date_added= today;
+    const movie_id= req.body.movie_id;
+    console.log(req.body)
+    db.query(
+        "SELECT * FROM watchlist WHERE WL_user_emailid = ? AND WL_movie_id = ?",[user_id,movie_id],
+        (err,result) =>{
+            if(result.length === 0){
+                db.query(
+                    "INSERT INTO watchlist (WL_movie_id, WL_user_emailid, date_added) VALUES (?,?,?) ",
+                    [movie_id,user_id,date_added],
+                    (err, res1) =>{
+                        console.log(err);
+                        if(err){
+                            res.send({err : 1, data:"Unable to insert data"});
+                        }
+                        else{
+                            res.send({err: 0 , data:"Movie added Sucessfully"});
+                        }
+                    }
+                );
+            }
+        }
+    )
+    
+});
 
 
 
